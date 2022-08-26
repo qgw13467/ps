@@ -1,5 +1,6 @@
 package codetest;
 
+
 import java.util.Scanner;
 
 public class SWEA_1873 {

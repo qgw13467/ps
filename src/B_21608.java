@@ -43,9 +43,7 @@ public class B_21608 {
 			
 			for (int j = 1; j <= N; j++) {
 				
-//				for(int k=1;k<=N;k++) {
-//					System.out.println(Arrays.toString(map[k]));
-//				}
+
 				
 				for (int k = 1; k <= N; k++) {
 					int tempNear = 0;
@@ -79,7 +77,14 @@ public class B_21608 {
 					}
 				}
 			}
+			
+
 			map[rx][ry] = num;
+			
+			for(int k=1;k<=N;k++) {
+				System.out.println(Arrays.toString(map[k]));
+			}
+			System.out.println();
 
 		}
 		for (int i = 1; i <= N; i++) {

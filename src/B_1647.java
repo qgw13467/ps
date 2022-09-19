@@ -13,23 +13,33 @@ public class B_1647 {
 	static int node, edge, sum, count;
 
 	static class Data implements Comparable<Data> {
-		public int start, target, weight;
+		public int target, weight;
 
 		@Override
-		public int compareTo(B_1647.Data o) {
+		public int compareTo(Data o) {
 			// TODO Auto-generated method stub
 			return this.weight - o.weight;
 		}
 
+		public Data() {
+			// TODO Auto-generated constructor stub
+		}
+
+		Data(int target, int weitht) {
+			this.target = target;
+			this.weight = weitht;
+		}
+
 		@Override
 		public String toString() {
-			return "Data [start=" + start + ", target=" + target + ", weight=" + weight + "]"+"\n";
+			return "Data [target=" + target + ", weight=" + weight + "]" + "\n";
 		}
 
 	}
 
 	static StringTokenizer stringTokenizer;
-	static int[] visited;
+	static ArrayList<Data> map[];
+	static boolean[] visited;
 	static Queue<Data> queue;
 
 	public static void main(String[] args) throws IOException {
@@ -37,50 +47,57 @@ public class B_1647 {
 		stringTokenizer = new StringTokenizer(bufferedReader.readLine());
 		node = Integer.parseInt(stringTokenizer.nextToken());
 		edge = Integer.parseInt(stringTokenizer.nextToken());
-		visited = new int[node + 1];
-		queue = new LinkedList<>();
+		visited = new boolean[node + 1];
+		map = new ArrayList[node + 1];
+
+		for (int i = 0; i < node + 1; i++) {
+
+			map[i] = new ArrayList<>();
+		}
+
 		for (int k = 0; k < edge; k++) {
 
 			stringTokenizer = new StringTokenizer(bufferedReader.readLine());
-			Data data = new Data();
-			data.start = Integer.parseInt(stringTokenizer.nextToken());
-			data.target = Integer.parseInt(stringTokenizer.nextToken());
-			data.weight = Integer.parseInt(stringTokenizer.nextToken());
-			queue.add(data);
-		}
-		
-		Collections.sort((List<Data>) queue);
-		System.out.println(queue);
+			int start = Integer.parseInt(stringTokenizer.nextToken());
+			int target = Integer.parseInt(stringTokenizer.nextToken());
+			int weight = Integer.parseInt(stringTokenizer.nextToken());
 
-		Data temp = queue.poll();
-		visited[temp.start] =1;
-		visited[temp.target] =1;
-		
-		sum+=temp.weight;
-		count++;
-		
-		
-		while(!queue.isEmpty()) {
+			map[start].add(new Data(target, weight));
+			map[target].add(new Data(start, weight));
+		}
+
+		int count = 0;
+		int result = 0;
+		int max = 0;
+
+		PriorityQueue<Data> queue = new PriorityQueue<Data>();
+
+		queue.add(new Data(1, 0));
+
+		while (true) {
 			Data data = queue.poll();
-			if(visited[data.start] ==1 && visited[data.target]==1) {
+
+			if (visited[data.target]) {
 				continue;
 			}
-			if(visited[data.start] ==0 && visited[data.target]==0) {
-				queue.add(data);
-				continue;
-			}
+
 			
-			visited[data.start] =1;
-			visited[data.target] =1;
-			
-			sum+=data.weight;
+			result += data.weight;
+			visited[data.target] = true;
+			max = Math.max(max, data.weight);
 			count++;
-			
-			System.out.println(data);
+
+			if (count == node)
+				break;
+
+			for (Data v : map[data.target]) {
+				if (!visited[v.target]) {
+					queue.add(new Data(v.target, v.weight));
+				}
+			}
 		}
 		
-		System.out.println(sum);
-		
-		
+		System.out.println(result - max);
+
 	}
 }

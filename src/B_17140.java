@@ -46,7 +46,6 @@ public class B_17140 {
 				break;
 			}
 
-			// R연산
 			if (R >= C) {
 				int newC = 0;
 

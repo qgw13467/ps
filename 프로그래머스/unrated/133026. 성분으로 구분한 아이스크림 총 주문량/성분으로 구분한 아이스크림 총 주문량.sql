@@ -1,0 +1,8 @@
+-- 코드를 입력하세요
+SELECT icf.INGREDIENT_TYPE, SUM(TOTAL_ORDER) as TOTAL_ORDER
+FROM FIRST_HALF fh
+JOIN ICECREAM_INFO icf
+ON fh.flavor = icf.flavor
+group by INGREDIENT_TYPE
+having sum(TOTAL_ORDER)
+order by TOTAL_ORDER
